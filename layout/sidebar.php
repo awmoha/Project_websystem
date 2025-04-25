@@ -28,13 +28,13 @@
                     <i class="bi bi-plus-circle me-2"></i> Create Incident
                 </a>
             </li>
-
-            <li class="nav-item">
-                <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'reports.php' ? 'active' : '' ?>" href="reports.php">
-                    <i class="bi bi-bar-chart-line me-2"></i> Reports
-                </a>
-            </li>
             <?php if (isset($_SESSION['role']) && trim($_SESSION['role']) == 'Administrator'): ?>
+
+                <li class="nav-item">
+                    <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'reports.php' ? 'active' : '' ?>" href="reports.php">
+                        <i class="bi bi-bar-chart-line me-2"></i> Reports
+                    </a>
+                </li>
 
                 <li class="nav-item">
                     <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'users.php' ? 'active' : '' ?>" href="users.php">
