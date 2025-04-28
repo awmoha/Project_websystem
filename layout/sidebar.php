@@ -54,6 +54,11 @@
                     <i class="bi bi-info-circle me-2"></i> About
                 </a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'sla.php' ? 'active' : '' ?>" href="sla.php">
+                    <i class="bi bi-info-circle me-2"></i> SLA
+                </a>
+            </li>
 
             <li class="nav-item">
                 <?php if (isset($_SESSION['user_id'])): ?>
