@@ -68,7 +68,6 @@ while ($row = $status_query->fetch_assoc()) {
     <?php endif; ?>
 
 
-
     <div class="card mb-4">
         <div class="card-body">
             <form action="update_incident.php" method="POST">
@@ -115,7 +114,20 @@ while ($row = $status_query->fetch_assoc()) {
                     <div class="mb-2">
                         <strong><?= htmlspecialchars($status['user_name']) ?></strong>
                         changed status to
-                        <span class="badge bg-info text-dark"><?= htmlspecialchars($status['status_type']) ?></span>
+<span class="badge 
+    <?php 
+        if ($status['status_type'] == 'OPEN') {
+            echo 'bg-primary text-light'; // Blå för OPEN
+        } elseif ($status['status_type'] == 'WORK IN PROGRESS') {
+            echo 'bg-secondary text-dark'; // Gul för Work in Progress
+        } elseif ($status['status_type'] == 'SOLVED') {
+            echo 'bg-success text-light'; // Grön för Solved
+        } else {
+            echo 'bg-secondary text-light'; // Standard färg för andra statusar
+        }
+    ?>">
+    <?= htmlspecialchars($status['status_type']) ?>
+</span>
                         <small class="text-muted">(<?= htmlspecialchars($status['reported_at']) ?>)</small>
                     </div>
                     <hr>
