@@ -5,14 +5,12 @@
     </div>
 
 
-    <!-- Incident Form -->
     <form method="post" action="create_incident.php" enctype="multipart/form-data">
-        <div class="form-group mb-3"> <!-- Lägg till margin-bottom för att skapa ett gap -->
+        <div class="form-group mb-3"> 
             <label for="inc_type_id">Incident Type:</label>
-            <select class="form-control" id="inc_type_id" name="inc_type_id" required>
+            <select class="form-control bg-dark text-white" id="inc_type_id" name="inc_type_id" required>
                 <option value="">Select Incident Type</option>
                 <?php
-                // Hämta incident-typer från databasen
                 $type_query = "SELECT inc_type_id, type_name FROM incident_type";
                 $type_result = $conn->query($type_query);
                 if ($type_result->num_rows > 0) {
@@ -24,12 +22,11 @@
             </select>
         </div>
 
-        <div class="form-group mb-3"> <!-- Lägg till margin-bottom för att skapa ett gap -->
+        <div class="form-group mb-3"> 
             <label for="inc_sev_id">Incident Severity:</label>
-            <select class="form-control" id="inc_sev_id" name="inc_sev_id" required>
+            <select class="form-control  bg-dark text-white" id="inc_sev_id" name="inc_sev_id" required>
                 <option value="">Select Incident Severity</option>
                 <?php
-                // Hämta incident-severities från databasen
                 $severity_query = "SELECT inc_sev_id, severity_name FROM incident_severity";
                 $severity_result = $conn->query($severity_query);
                 if ($severity_result->num_rows > 0) {
@@ -41,17 +38,16 @@
             </select>
         </div>
 
-        <div class="form-group mb-3"> <!-- Lägg till margin-bottom för att skapa ett gap -->
+        <div class="form-group mb-3"> 
             <label for="description">Description:</label>
-            <textarea class="form-control" id="description" name="description" rows="4" required></textarea>
+            <textarea class="form-control  bg-dark text-white" id="description" name="description" rows="4" required></textarea>
         </div>
 
-        <div class="form-group mb-3"> <!-- Lägg till margin-bottom för att skapa ett gap -->
+        <div class="form-group mb-3"> 
             <label for="affected_assets">Affected Assets:</label>
-            <select class="form-control" id="affected_assets" name="affected_assets[]" multiple required>
+            <select class="form-control  bg-dark text-white" id="affected_assets" name="affected_assets[]" multiple required>
                 <option value="">Select Affected Assets</option>
                 <?php
-                // Hämta tillgångar från databasen
                 $asset_query = "SELECT asset_id, asset_name FROM asset";
                 $asset_result = $conn->query($asset_query);
                 if ($asset_result->num_rows > 0) {
@@ -63,7 +59,7 @@
             </select>
         </div>
 
-        <div class="form-group mb-3"> <!-- Lägg till margin-bottom för att skapa ett gap -->
+        <div class="form-group mb-3"> 
             <label for="evidence_files">Evidence Files:</label>
             <input type="file" class="form-control-file" id="evidence_files" name="evidence_files[]" multiple>
         </div>
