@@ -56,7 +56,8 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'sla.php' ? 'active' : '' ?>" href="sla.php">
-                    <i class="bi bi-info-circle me-2"></i> SLA
+                <i class="bi bi-hourglass-split me-2"></i>
+                SLA
                 </a>
             </li>
 
