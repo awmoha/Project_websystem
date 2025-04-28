@@ -54,7 +54,7 @@ while ($row = $status_query->fetch_assoc()) {
 
 ?>
 
-<div class="container mt-5">
+<div class="container mt-5 ">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h1 class="mb-4">Incident #<?= htmlspecialchars($incident['inc_id']) ?></h1>
         <a href="dashboard.php" class="btn btn-secondary">Back</a>
@@ -68,13 +68,13 @@ while ($row = $status_query->fetch_assoc()) {
     <?php endif; ?>
 
 
-    <div class="card mb-4">
+    <div class="card mb-4  bg-dark text-white">
         <div class="card-body">
             <form action="update_incident.php" method="POST">
                 <input type="hidden" name="inc_id" value="<?= $inc_id ?>">
-                <div class="mb-3">
+                <div class="mb-3 ">
                     <label for="description" class="form-label">Description</label>
-                    <textarea name="description" id="description" class="form-control" rows="4" <?= ($role == 'Administrator' || $role == 'Reporter') ? '' : 'readonly' ?>><?= htmlspecialchars($incident['description']) ?></textarea>
+                    <textarea name="description" id="description" class="form-control  bg-dark text-white" rows="4" <?= ($role == 'Administrator' || $role == 'Reporter') ? '' : 'readonly' ?>><?= htmlspecialchars($incident['description']) ?></textarea>
                 </div>
 
                 <?php if ($role == 'Administrator' || $role == 'Reporter' || $role == 'Responder'): ?>
@@ -92,7 +92,7 @@ while ($row = $status_query->fetch_assoc()) {
                     <input type="hidden" name="inc_id" value="<?= $inc_id ?>">
                     <div class="mb-3">
                         <label for="status_type" class="form-label">Change Status</label>
-                        <select name="status_type_id" id="status_type" class="form-select" required>
+                        <select name="status_type_id" id="status_type" class="form-select  bg-dark text-white" required>
                             <?php foreach ($status_options as $status): ?>
                                 <option value="<?= $status['status_type_id'] ?>"><?= htmlspecialchars($status['status_type']) ?></option>
                             <?php endforeach; ?>
@@ -104,8 +104,8 @@ while ($row = $status_query->fetch_assoc()) {
         </div>
     </div>
 
-    <div class="card mb-4">
-        <div class="card-header">
+    <div class="card mb-4  bg-dark text-white">
+        <div class="card-header ">
             <h5>Status History</h5>
         </div>
         <div class="card-body" style="max-height: 300px; overflow-y: auto;">
@@ -114,31 +114,31 @@ while ($row = $status_query->fetch_assoc()) {
                     <div class="mb-2">
                         <strong><?= htmlspecialchars($status['user_name']) ?></strong>
                         changed status to
-<span class="badge 
-    <?php 
-        if ($status['status_type'] == 'OPEN') {
-            echo 'bg-primary text-light'; // Blå för OPEN
-        } elseif ($status['status_type'] == 'WORK IN PROGRESS') {
-            echo 'bg-secondary text-dark'; // Gul för Work in Progress
-        } elseif ($status['status_type'] == 'SOLVED') {
-            echo 'bg-success text-light'; // Grön för Solved
-        } else {
-            echo 'bg-secondary text-light'; // Standard färg för andra statusar
-        }
+                        <span class="badge 
+    <?php
+                    if ($status['status_type'] == 'OPEN') {
+                        echo 'bg-primary text-light'; // Blå för OPEN
+                    } elseif ($status['status_type'] == 'WORK IN PROGRESS') {
+                        echo 'bg-secondary text-dark'; // Gul för Work in Progress
+                    } elseif ($status['status_type'] == 'SOLVED') {
+                        echo 'bg-success text-light'; // Grön för Solved
+                    } else {
+                        echo 'bg-secondary text-light'; // Standard färg för andra statusar
+                    }
     ?>">
-    <?= htmlspecialchars($status['status_type']) ?>
-</span>
+                            <?= htmlspecialchars($status['status_type']) ?>
+                        </span>
                         <small class="text-muted">(<?= htmlspecialchars($status['reported_at']) ?>)</small>
                     </div>
                     <hr>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p class="text-muted">No status changes yet.</p>
+                <p class=" bg-dark text-white">No status changes yet.</p>
             <?php endif; ?>
         </div>
     </div>
 
-    <div class="card mb-4">
+    <div class="card mb-4 bg-dark text-white">
         <div class="card-header">
             <h5>Uploaded Images</h5>
         </div>
@@ -152,7 +152,7 @@ while ($row = $status_query->fetch_assoc()) {
                     <?php endwhile; ?>
                 </div>
             <?php else: ?>
-                <p class="text-muted">No images uploaded yet.</p>
+                <p class="text-white">No images uploaded yet.</p>
             <?php endif; ?>
 
             <?php if ($role == 'Administrator' || $role == 'Reporter' || $role == 'Responder'): ?>
@@ -167,7 +167,7 @@ while ($row = $status_query->fetch_assoc()) {
         </div>
     </div>
 
-    <div class="card mb-4">
+    <div class="card mb-4 bg-dark text-white">
         <div class="card-header">
             <h5>Comments</h5>
         </div>
@@ -217,17 +217,17 @@ while ($row = $status_query->fetch_assoc()) {
                     <hr>
                 <?php endwhile; ?>
             <?php else: ?>
-                <p class="text-muted">No comments yet.</p>
-            <?php endif; ?>
+                <p class="text-muted-white">No comments yet.</p>
+                <?php endif; ?>
         </div>
 
 
 
         <div class="card-footer">
             <form action="add_comment.php" method="POST">
-                <div class="input-group">
+                <div class="input-group ">
                     <input type="hidden" name="inc_id" value="<?= $inc_id ?>">
-                    <input type="text" name="content" class="form-control" placeholder="Write a comment..." maxlength="20" required>
+                    <input type="text" name="content" class="form-control" placeholder="Write a comment..." maxlength="20" required />
                     <button class="btn btn-primary" type="submit">Send</button>
                 </div>
             </form>
