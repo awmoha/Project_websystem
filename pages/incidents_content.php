@@ -10,11 +10,16 @@
 
     if (isset($_SESSION['flash_message'])) {
         echo '<div class="alert alert-success">' . $_SESSION['flash_message'] . '</div>';
-        unset($_SESSION['flash_message']); 
+        unset($_SESSION['flash_message']);
     }
 
     if ($role == 'Reporter') {
-        $sql = "SELECT i.*, iu.user_name, r.role_name 
+        $sql = "SELECT i.*, iu.user_name, r.role_name, 
+                    (SELECT st.status_type 
+                     FROM incident_status ists 
+                     JOIN status_type st ON ists.status_type_id = st.status_type_id
+                     WHERE ists.inc_id = i.inc_id 
+                     ORDER BY ists.reported_at DESC LIMIT 1) AS current_status
                 FROM incident i
                 JOIN incident_user iu ON i.inc_user_id = iu.inc_user_id
                 JOIN role r ON iu.role_id = r.role_id
@@ -22,7 +27,12 @@
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $user_id);
     } else {
-        $sql = "SELECT i.*, iu.user_name, r.role_name 
+        $sql = "SELECT i.*, iu.user_name, r.role_name, 
+                    (SELECT st.status_type 
+                     FROM incident_status ists 
+                     JOIN status_type st ON ists.status_type_id = st.status_type_id
+                     WHERE ists.inc_id = i.inc_id 
+                     ORDER BY ists.reported_at DESC LIMIT 1) AS current_status
                 FROM incident i
                 JOIN incident_user iu ON i.inc_user_id = iu.inc_user_id
                 JOIN role r ON iu.role_id = r.role_id";
@@ -55,19 +65,17 @@
                         <td><?= htmlspecialchars($row['description']) ?></td>
                         <td><?= htmlspecialchars($row['reported_at']) ?></td>
                         <td><?= htmlspecialchars($row['user_name']) ?> (<?= htmlspecialchars($row['role_name']) ?>)</td>
-                        <td><?= htmlspecialchars($row['status'] ?? 'Pending') ?></td>
+                        <td><?= htmlspecialchars($row['current_status'] ?? 'Pending') ?></td> <!-- Här visas den senaste statusen -->
                         <td>
-                            <a href="view_incident.php?id=<?= $row['inc_id'] ?>" class="btn btn-primary btn-sm me-1">View</a>
-                            <?php if ($role == 'Responder' || $role == 'Administrator'): ?>
-                                <a href="change_status.php?id=<?= $row['inc_id'] ?>" class="btn btn-warning btn-sm me-1">Change Status</a>
-                            <?php endif; ?>
+                            <a href="view.php?id=<?= $row['inc_id'] ?>" class="btn btn-primary btn-sm me-1">View</a>
                         </td>
+
                         <?php if ($role == 'Administrator'): ?>
                             <td>
-                                <a href="delete_incident.php?id=<?= $row['inc_id'] ?>" 
-                                   class="btn btn-danger btn-sm" 
-                                   onclick="return confirm('Are you sure you want to delete this incident?');">
-                                   Delete
+                                <a href="delete_incident.php?id=<?= $row['inc_id'] ?>"
+                                    class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure you want to delete this incident?');">
+                                    Delete
                                 </a>
                             </td>
                         <?php endif; ?>
@@ -79,4 +87,3 @@
         <div class="alert alert-info">No incidents found.</div>
     <?php endif; ?>
 </div>
-
