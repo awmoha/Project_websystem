@@ -56,7 +56,7 @@ while ($row = $status_query->fetch_assoc()) {
 
 <div class="container mt-5">
     <div class="d-flex justify-content-between align-items-center mb-3">
-    <h1 class="mb-4">Incident #<?= htmlspecialchars($incident['inc_id']) ?></h1>
+        <h1 class="mb-4">Incident #<?= htmlspecialchars($incident['inc_id']) ?></h1>
         <a href="dashboard.php" class="btn btn-secondary">Back</a>
     </div>
     <?php if (isset($_SESSION['flash_message'])): ?>
@@ -162,17 +162,55 @@ while ($row = $status_query->fetch_assoc()) {
         <div class="card-body" style="max-height: 400px; overflow-y: auto;">
             <?php if ($comments->num_rows > 0): ?>
                 <?php while ($comment = $comments->fetch_assoc()): ?>
-                    <div class="mb-3">
-                        <strong><?= htmlspecialchars($comment['user_name']) ?></strong>
-                        <small class="text-muted"><?= htmlspecialchars($comment['created_at']) ?></small>
-                        <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
-                        <hr>
+                    <div class="mb-3 d-flex justify-content-between">
+                        <div>
+                            <strong><?= htmlspecialchars($comment['user_name']) ?></strong>
+                            <small class="text-muted"><?= htmlspecialchars($comment['created_at']) ?></small>
+
+                            <p id="comment_content_<?= $comment['comment_id'] ?>"><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+                        </div>
+
+                        <div class="d-flex align">
+                            <div>
+                                <?php if ($comment['inc_user_id'] == $user_id || $role == 'Administrator'): ?>
+                                    <a href="javascript:void(0);" class="btn btn-warning btn-sm ms-3 mb-1" onclick="editComment(<?= $comment['comment_id'] ?>)">
+                                        <i class="bi bi-pencil"></i> Edit
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                            <div>
+                                <?php if ($comment['inc_user_id'] == $user_id || $role == 'Administrator'): ?>
+                                    <a href="delete_comment.php?comment_id=<?= $comment['comment_id'] ?>&inc_id=<?= $inc_id ?>"
+                                        class="btn btn-danger btn-sm ms-3"
+                                        onclick="return confirm('Are you sure you want to delete this comment?');">
+                                        <i class="bi bi-trash"></i> Delete
+                                    </a>
+                                <?php endif; ?>
+                            </div>
+                        </div>
                     </div>
+
+                    <?php if ($comment['inc_user_id'] == $user_id || $role == 'Administrator'): ?>
+                        <div id="edit_form_<?= $comment['comment_id'] ?>" style="display: none;">
+                            <form action="update_comment.php" method="POST">
+                                <input type="hidden" name="comment_id" value="<?= $comment['comment_id'] ?>">
+                                <input type="hidden" name="inc_id" value="<?= $inc_id ?>">
+                                <textarea name="content" class="form-control" rows="3"><?= htmlspecialchars($comment['content']) ?></textarea>
+                                <button type="submit" class="btn btn-success btn-sm mt-2">Update</button>
+                                <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="cancelEdit(<?= $comment['comment_id'] ?>)">Cancel</button>
+                            </form>
+                        </div>
+                    <?php endif; ?>
+
+                    <hr>
                 <?php endwhile; ?>
             <?php else: ?>
                 <p class="text-muted">No comments yet.</p>
             <?php endif; ?>
         </div>
+
+
+
         <div class="card-footer">
             <form action="add_comment.php" method="POST">
                 <div class="input-group">
@@ -184,4 +222,17 @@ while ($row = $status_query->fetch_assoc()) {
         </div>
     </div>
 
+
 </div>
+
+<script>
+    function editComment(comment_id) {
+        document.getElementById('comment_content_' + comment_id).style.display = 'none';
+        document.getElementById('edit_form_' + comment_id).style.display = 'block';
+    }
+
+    function cancelEdit(comment_id) {
+        document.getElementById('comment_content_' + comment_id).style.display = 'block';
+        document.getElementById('edit_form_' + comment_id).style.display = 'none';
+    }
+</script>
