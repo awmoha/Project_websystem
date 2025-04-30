@@ -61,7 +61,7 @@
                 </a>
             </li>
 
-            <li class="nav-item">
+            <!-- <li class="nav-item">
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'logout.php' ? 'active' : '' ?>" href="logout.php">
                         <i class="bi bi-box-arrow-left me-2"></i> Logout
@@ -71,7 +71,7 @@
                         <i class="bi bi-box-arrow-in-right me-2"></i> Login
                     </a>
                 <?php endif; ?>
-            </li>
+            </li> -->
 
         </ul>
     </div>
