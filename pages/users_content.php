@@ -8,8 +8,8 @@
   <?php endif; ?>
   <?php if (!empty($users)): ?>
     <div class="table-responsive">
-      <table class="table table-dark table-striped table-bordered table-hover">
-        <thead class="table-dark">
+      <table class="table table-striped table-bordered table-hover">
+        <thead>
           <tr>
             <th>ID</th> 
             <th>Username</th>

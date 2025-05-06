@@ -11,12 +11,12 @@
     <?php endif; ?>
 
     <form method="post" action="login.php">
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <label for="username" class="form-label text-light">Username</label>
         <input type="text" name="username" id="username" class="form-control" required>
       </div>
 
-      <div class="mb-3">
+      <div class="form-group mb-3">
         <label for="password" class="form-label text-light">Password</label>
         <input type="password" name="password" id="password" class="form-control" required>
       </div>

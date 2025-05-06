@@ -66,7 +66,7 @@
         <?php if ($result->num_rows > 0): ?>
             <?php while ($row = $result->fetch_assoc()): ?>
                 <div class="col-md-4 mb-3">
-                    <div class="card shadow-sm bg-dark text-white">
+                    <div class="card shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">Incident #<?= htmlspecialchars($row['inc_id']) ?></h5>
                             <p><strong>Reported By:</strong> <?= htmlspecialchars($row['reporter_name']) ?></p>
