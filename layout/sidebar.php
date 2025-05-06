@@ -1,4 +1,3 @@
-
 <div class="mt-5">
     <button class="btn btn-primary d-xl-none mt-3" id="sidebarToggle">
         ☰
@@ -30,8 +29,8 @@
             <?php if (isset($_SESSION['role']) && trim($_SESSION['role']) == 'Administrator'): ?>
 
                 <li class="nav-item">
-                    <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'reports.php' ? 'active' : '' ?>" href="reports.php">
-                        <i class="bi bi-bar-chart-line me-2"></i> Reports
+                    <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'statistics.php' ? 'active' : '' ?>" href="statistics.php">
+                        <i class="bi bi-bar-chart-line me-2"></i> Statistics
                     </a>
                 </li>
 
@@ -43,20 +42,14 @@
             <?php endif; ?>
 
             <li class="nav-item">
-                <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'settings.php' ? 'active' : '' ?>" href="settings.php">
-                    <i class="bi bi-gear me-2"></i> Settings
-                </a>
-            </li>
-
-            <li class="nav-item">
                 <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'about.php' ? 'active' : '' ?>" href="about.php">
                     <i class="bi bi-info-circle me-2"></i> About
                 </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-primary <?= basename($_SERVER['PHP_SELF']) == 'sla.php' ? 'active' : '' ?>" href="sla.php">
-                <i class="bi bi-hourglass-split me-2"></i>
-                SLA
+                    <i class="bi bi-hourglass-split me-2"></i>
+                    SLA
                 </a>
             </li>
 
