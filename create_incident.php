@@ -1,6 +1,8 @@
 <?php
 require_once('db.php');
 session_start();
+require_once('track_visit.php');
+
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {

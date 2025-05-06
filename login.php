@@ -1,6 +1,8 @@
 <?php
 session_start();
 require_once 'db.php';  
+require_once('track_visit.php');
+
 
 $message = '';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {

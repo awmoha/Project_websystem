@@ -1,5 +1,7 @@
 <?php
 require_once('db.php');
+require_once('track_visit.php');
+
 session_start();
 
 // Säkerställ att användaren är inloggad

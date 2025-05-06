@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 if (!isset($_SESSION['user_id'])) {
@@ -7,6 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 require_once('db.php');
+require_once('track_visit.php');
 
 // Function to fetch all necessary data
 function getDashboardData($conn, $user_id, $user_role)
