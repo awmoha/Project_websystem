@@ -62,6 +62,7 @@ if (session_status() == PHP_SESSION_NONE) {
             color: #f8f9fa !important;
             border-color: #444 !important;
         }
+
         body.dark-mode ul,
         body.dark-mode .navbar,
         body.dark-mode .dropdown-menu,
@@ -84,7 +85,8 @@ if (session_status() == PHP_SESSION_NONE) {
             color: #f8f9fa !important;
         }
 
-        body.dark-mode a, h1{
+        body.dark-mode a,
+        h1 {
             color: #f8f9fa !important;
 
         }
@@ -139,6 +141,23 @@ if (session_status() == PHP_SESSION_NONE) {
 
         body.dark-mode hr {
             border-color: #444;
+        }
+
+        body.dark-mode .pagination .page-link {
+            background-color: #2b2b2b;
+            color: #f8f9fa;
+            border-color: #444;
+        }
+
+        body.dark-mode .pagination .page-item.active .page-link {
+            background-color: #007bff;
+            color: #ffffff;
+            border-color: #007bff;
+        }
+
+        body.dark-mode .pagination .page-link:hover {
+            background-color: #444;
+            color: #ffffff;
         }
     </style>
 

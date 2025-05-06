@@ -1,6 +1,5 @@
-<div class="container bg-dark text-light mt-5">
-   <h1>Page Visit Tracking</h1>
-
+<div class="container mt-5">
+   <h2 class="mb-4">Page Visit Tracking</h2>
 
    <ul class="nav nav-tabs">
        <li class="nav-item">
@@ -18,9 +17,9 @@
    <div class="tab-content">
       
        <div class="tab-pane fade <?= !isset($_GET['user_id']) ? 'show active' : '' ?>" id="full-log">
-           <h3>All Visits</h3>
+           <h3 class="mt-4">All Visits</h3>
            <?php if ($result->num_rows > 0): ?>
-               <table class="table table-bordered table-striped table-dark">
+               <table class="table table-bordered table-striped">
                    <thead>
                        <tr>
                            <th>Time</th>
@@ -73,7 +72,7 @@
 
      
        <div class="tab-pane fade <?= isset($_GET['user_id']) ? 'show active' : '' ?>" id="user-log">
-           <h3>Visits by User</h3>
+           <h3 class="mt-4">Visits by User</h3>
            <form method="GET" action="statistics.php" class="mb-3">
                <div class="input-group">
                    <select class="form-select" name="user_id" required>
@@ -91,7 +90,7 @@
 
            <?php if (isset($userVisits)): ?>
                <?php if ($userVisits->num_rows > 0): ?>
-                   <table class="table table-striped table-dark">
+                   <table class="table table-striped">
                        <thead>
                            <tr>
                                <th>Time</th>
@@ -118,7 +117,7 @@
                  
                    <?php if ($totalUserPages > 1): ?>
                        <nav>
-                           <ul class="pagination justify-content-center mt-3">
+                           <ul class="pagination justify-content-center mt-5">
                                <li class="page-item <?= $userPage <= 1 ? 'disabled' : '' ?>">
                                    <a class="page-link" href="?user_id=<?= $selectedUserId ?>&user_page=<?= $userPage - 1 ?>">Previous</a>
                                </li>
@@ -149,9 +148,9 @@
 
       
        <div class="tab-pane fade" id="summary">
-           <h3>Summary of Page Visits</h3>
+           <h3 class="mt-4">Summary of Page Visits</h3>
            <?php if ($summaryResult->num_rows > 0): ?>
-               <table class="table table-striped table-dark">
+               <table class="table table-striped">
                    <thead>
                        <tr>
                            <th>Page</th>
