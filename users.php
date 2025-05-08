@@ -3,13 +3,11 @@ require_once('db.php');
 require_once('track_visit.php');
 
 session_start();
-if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
-    exit;
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'Administrator') {
+    header("Location: dashboard.php");
+    exit();
 }
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+
 $message = '';
 $title = "Users";
 $content = "pages/users_content.php";

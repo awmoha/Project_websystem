@@ -3,10 +3,6 @@ require_once('db.php');
 require_once('track_visit.php');
 
 session_start();
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Administrator') {
     header("Location: index.php");
     exit();
@@ -15,7 +11,6 @@ if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Administrator') {
 $message = '';
 $title = "Edit User";
 
-// Hämta roller
 $roles = [];
 $result_roles = $conn->query("SELECT role_name FROM role");
 if ($result_roles && $result_roles->num_rows > 0) {

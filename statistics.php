@@ -2,10 +2,10 @@
 require_once('db.php');
 session_start();
 
-
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Administrator') {
+   header("Location: dashboard.php");
+   exit();
+}
 
 
 
@@ -18,11 +18,9 @@ function runQuery($conn, $sql) {
 }
 
 
-$perPage = 10;
+$perPage = 20;
 $page = isset($_GET['page']) && is_numeric($_GET['page']) ? (int) $_GET['page'] : 1;
 $offset = ($page - 1) * $perPage;
-
-
 
 
 $countResult = runQuery($conn, "
@@ -35,8 +33,6 @@ $countResult = runQuery($conn, "
 ");
 $totalRows = $countResult->fetch_assoc()['total'];
 $totalPages = ceil($totalRows / $perPage);
-
-
 
 
 $result = runQuery($conn, "
@@ -52,7 +48,6 @@ $result = runQuery($conn, "
 
 
 
-
 $usersResult = runQuery($conn, "SELECT inc_user_id, user_name FROM incident_user ORDER BY user_name");
 $users = [];
 while ($row = $usersResult->fetch_assoc()) {
@@ -64,11 +59,9 @@ if (isset($_GET['user_id']) && is_numeric($_GET['user_id'])) {
    $selectedUserId = (int) $_GET['user_id'];
 
 
-  
    $userPerPage = 10;
    $userPage = isset($_GET['user_page']) && is_numeric($_GET['user_page']) ? (int) $_GET['user_page'] : 1;
    $userOffset = ($userPage - 1) * $userPerPage;
-
 
   
    $countUserVisitsResult = runQuery($conn, "
