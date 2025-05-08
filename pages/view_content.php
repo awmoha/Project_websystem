@@ -147,7 +147,9 @@ while ($row = $status_query->fetch_assoc()) {
                 <div class="row">
                     <?php while ($img = $images->fetch_assoc()): ?>
                         <div class="col-md-3 mb-3">
-                            <img src="<?= htmlspecialchars($img['file_path']) ?>" class="img-fluid rounded" alt="Evidence">
+                            <a href="<?= htmlspecialchars($img['file_path']) ?>" target="_blank">
+                                <img src="<?= htmlspecialchars($img['file_path']) ?>" class="img-fluid rounded" alt="Evidence">
+                            </a>
                         </div>
                     <?php endwhile; ?>
                 </div>
@@ -155,11 +157,11 @@ while ($row = $status_query->fetch_assoc()) {
                 <p>No images uploaded yet.</p>
             <?php endif; ?>
 
-            <?php if ($role == 'Administrator' || $role == 'Reporter' || $role == 'Responder'): ?>
-                <form action="upload_image.php" method="POST" enctype="multipart/form-data" class="mt-3">
+            <?php if (in_array($role, ['Administrator', 'Reporter', 'Responder'])): ?>
+                <form action="upload_image.php" method="POST" enctype="multipart/form-data" class="mt-4">
                     <input type="hidden" name="inc_id" value="<?= $inc_id ?>">
                     <div class="mb-3">
-                        <input type="file" name="image[]" multiple class="form-control" required>
+                        <input type="file" name="evidence_files[]" multiple class="form-control" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Upload Images</button>
                 </form>
