@@ -13,31 +13,27 @@
     unset($_SESSION['flash_message']);
   }
 
+  $sql = "
+  SELECT i.*, iu.user_name, r.role_name, 
+  (SELECT st.status_type 
+   FROM incident_status ists 
+   JOIN status_type st ON ists.status_type_id = st.status_type_id
+   WHERE ists.inc_id = i.inc_id 
+   ORDER BY ists.reported_at DESC LIMIT 1) AS current_status
+  FROM incident i
+  JOIN incident_user iu ON i.inc_user_id = iu.inc_user_id
+  JOIN role r ON iu.role_id = r.role_id
+";
+
   if ($role == 'Reporter') {
-    $sql = "SELECT i.*, iu.user_name, r.role_name, 
-            (SELECT st.status_type 
-             FROM incident_status ists 
-             JOIN status_type st ON ists.status_type_id = st.status_type_id
-             WHERE ists.inc_id = i.inc_id 
-             ORDER BY ists.reported_at DESC LIMIT 1) AS current_status
-            FROM incident i
-            JOIN incident_user iu ON i.inc_user_id = iu.inc_user_id
-            JOIN role r ON iu.role_id = r.role_id
-            WHERE i.inc_user_id = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $user_id);
-  } else {
-    $sql = "SELECT i.*, iu.user_name, r.role_name, 
-            (SELECT st.status_type 
-             FROM incident_status ists 
-             JOIN status_type st ON ists.status_type_id = st.status_type_id
-             WHERE ists.inc_id = i.inc_id 
-             ORDER BY ists.reported_at DESC LIMIT 1) AS current_status
-            FROM incident i
-            JOIN incident_user iu ON i.inc_user_id = iu.inc_user_id
-            JOIN role r ON iu.role_id = r.role_id";
-    $stmt = $conn->prepare($sql);
+    $sql .= " WHERE i.inc_user_id = ? ";
   }
+  $sql .= " ORDER BY i.inc_id DESC";
+  $stmt = $conn->prepare($sql);
+  if ($role == 'Reporter') {
+    $stmt->bind_param("i", $user_id);
+  }
+
 
   $stmt->execute();
   $result = $stmt->get_result();
