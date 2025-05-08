@@ -10,14 +10,12 @@ if (!isset($_SESSION['user_id'])) {
 require_once('db.php');
 require_once('track_visit.php');
 
-// Function to fetch all necessary data
 function getDashboardData($conn, $user_id, $user_role)
 {
     $data = [];
 
     try {
-        // Total incidents
-        // Total incidents (utan rollbaserat filter)
+     
         $query = "SELECT COUNT(*) as total_incidents FROM incident";
         $stmt = $conn->prepare($query);
         $stmt->execute();
@@ -25,7 +23,6 @@ function getDashboardData($conn, $user_id, $user_role)
         $data['total_incidents'] = $result->fetch_assoc()['total_incidents'];
         $stmt->close();
 
-        // Severity counts (utan rollbaserat filter)
         $query = "SELECT is2.severity_name, COUNT(i.inc_id) as count_by_severity 
           FROM incident i 
           JOIN incident_severity is2 ON i.inc_sev_id = is2.inc_sev_id
@@ -36,7 +33,6 @@ function getDashboardData($conn, $user_id, $user_role)
         $data['severity_counts'] = $result->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
 
-        // Type counts (utan rollbaserat filter)
         $query = "SELECT it.type_name, COUNT(i.inc_id) as count_by_type 
           FROM incident i 
           JOIN incident_type it ON i.inc_type_id = it.inc_type_id
@@ -46,7 +42,6 @@ function getDashboardData($conn, $user_id, $user_role)
         $result = $stmt->get_result();
         $data['type_counts'] = $result->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
-        // Status counts (utan rollbaserat filter)
 
         $query = "SELECT st.status_type, COUNT(i_s.inc_id) as count_by_status
           FROM incident_status i_s
@@ -62,7 +57,6 @@ function getDashboardData($conn, $user_id, $user_role)
         $stmt->close();
 
 
-        // Incidents per month (utan rollbaserat filter)
         $labelsIncidents = [];
         $dataIncidents = [];
         $res = $conn->query("SELECT COUNT(*) AS total, DATE_FORMAT(reported_at, '%Y-%m') AS month
@@ -75,7 +69,6 @@ function getDashboardData($conn, $user_id, $user_role)
         }
         $data['incidents_per_month'] = ['labels' => $labelsIncidents, 'data' => $dataIncidents];
 
-        // Incident types (utan rollbaserat filter)
         $incidentTypes = ['labels' => [], 'data' => []];
         $res = $conn->query("SELECT it.type_name, COUNT(*) AS total
                      FROM incident i
@@ -89,7 +82,6 @@ function getDashboardData($conn, $user_id, $user_role)
 
 
 
-        // Users over time (utan rollbaserat filter)
         $userStats = ['labels' => [], 'data' => []];
         $res = $conn->query("SELECT DATE_FORMAT(i.reported_at, '%Y-%m') AS month, COUNT(DISTINCT iu.inc_user_id) AS total
                      FROM incident i
@@ -102,7 +94,6 @@ function getDashboardData($conn, $user_id, $user_role)
         }
         $data['users_over_time'] = $userStats;
 
-        // Total stats (utan rollbaserat filter)
         $totals = [
             'users' => $conn->query("SELECT COUNT(*) FROM incident_user")->fetch_row()[0],
             'incidents' => $conn->query("SELECT COUNT(*) FROM incident")->fetch_row()[0],
@@ -116,14 +107,11 @@ function getDashboardData($conn, $user_id, $user_role)
     return $data;
 }
 
-// Get session data
 $user_id = $_SESSION['user_id'];
 $user_role = $_SESSION['role'];
 
-// Fetch all the data for the dashboard
 $dashboardData = getDashboardData($conn, $user_id, $user_role);
 
-// Title + layout
 $title = "Dashboard";
 $content = "pages/dashboard_content.php";
 include('layout/layout.php');

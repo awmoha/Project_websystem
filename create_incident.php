@@ -4,13 +4,11 @@ session_start();
 require_once('track_visit.php');
 
 
-// Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: index.php"); // Redirect to login if not logged in
+    header("Location: index.php"); 
     exit();
 }
 
-// Define the title for the layout
 $title = "Create Incident";
 
 $content = "pages/create_incident_content.php";
@@ -18,21 +16,17 @@ $content = "pages/create_incident_content.php";
 
 
     <?php
-    // Handle form submission
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-        // Retrieve and sanitize form data
         $inc_type_id = filter_input(INPUT_POST, 'inc_type_id', FILTER_VALIDATE_INT);
         $inc_sev_id = filter_input(INPUT_POST, 'inc_sev_id', FILTER_VALIDATE_INT);
-        $inc_user_id = $_SESSION['user_id']; // Use the logged-in user's ID
+        $inc_user_id = $_SESSION['user_id']; 
         $description = htmlspecialchars(trim($_POST['description']));
-        $reported_at = date('Y-m-d H:i:s'); // Current timestamp
-        $affected_assets = isset($_POST['affected_assets']) ? $_POST['affected_assets'] : array(); // Get affected assets as array.
+        $reported_at = date('Y-m-d H:i:s'); 
+        $affected_assets = isset($_POST['affected_assets']) ? $_POST['affected_assets'] : array(); 
 
-        // File upload handling
         $files = $_FILES['evidence_files'];
         $uploaded_files = array();
 
-        // Validate form data
         $errors = array();
         if (!$inc_type_id) {
             $errors[] = "Incident Type is required";
@@ -47,30 +41,27 @@ $content = "pages/create_incident_content.php";
             $errors[] = "Affected Assets are required";
         }
 
-        // File upload validation and processing
-        if ($files['name'][0] != '') { // Check if any files were uploaded
+        if ($files['name'][0] != '') { 
             foreach ($files['name'] as $key => $name) {
                 $file_name = $files['name'][$key];
                 $file_tmp = $files['tmp_name'][$key];
                 $file_size = $files['size'][$key];
                 $file_error = $files['error'][$key];
 
-                // Basic file validation
-                if ($file_error == 0) { // Check for upload success
-                    if ($file_size <= 2000000) { // Example: Limit file size to 2MB
+                if ($file_error == 0) { 
+                    if ($file_size <= 2000000) { 
                         $file_ext = strtolower(pathinfo($file_name, PATHINFO_EXTENSION));
-                        $allowed_ext = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx'); // Allowed file types
+                        $allowed_ext = array('jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx'); 
 
                         if (in_array($file_ext, $allowed_ext)) {
                             $new_file_name = uniqid() . '.' . $file_ext;
-                            $upload_dir = 'media/'; // Define the upload directory
-                            // Create the directory if it doesn't exist
+                            $upload_dir = 'media/uploads/'; 
                             if (!file_exists($upload_dir)) {
-                                mkdir($upload_dir, 0777, true); // Create recursively
+                                mkdir($upload_dir, 0777, true); 
                             }
                             $file_destination = $upload_dir . $new_file_name;
                             if (move_uploaded_file($file_tmp, $file_destination)) {
-                                $uploaded_files[] = $file_destination; // Store the file path
+                                $uploaded_files[] = $file_destination; 
                             } else {
                                 $errors[] = "Failed to upload file: " . $file_name;
                             }
@@ -89,10 +80,8 @@ $content = "pages/create_incident_content.php";
 
         if (empty($errors)) {
             try {
-                // Use a transaction to ensure data consistency
                 $conn->begin_transaction();
 
-                // Prepare the SQL query to insert into the incident table
                 $query = "INSERT INTO incident (inc_type_id, inc_sev_id, inc_user_id, description, reported_at)
                           VALUES (?, ?, ?, ?, ?)";
                 $stmt = $conn->prepare($query);
@@ -101,17 +90,14 @@ $content = "pages/create_incident_content.php";
                     throw new Exception("Prepare failed: " . $conn->error . "<br>SQL: " . $query);
                 }
 
-                // Bind parameters
                 $stmt->bind_param("iiiss", $inc_type_id, $inc_sev_id, $inc_user_id, $description, $reported_at);
 
-                // Execute the query
                 if (!$stmt->execute()) {
                     throw new Exception("Error creating incident: " . $stmt->error . "</div>");
                 }
 
-                $last_inserted_id = $conn->insert_id; // Get the ID of the newly inserted incident
+                $last_inserted_id = $conn->insert_id;
 
-                // Handle affected assets.  Insert into incident_asset
                 foreach ($affected_assets as $asset_id) {
                     $insert_asset_query = "INSERT INTO incident_asset (incident_id, asset_id) VALUES (?, ?)";
                     $asset_stmt = $conn->prepare($insert_asset_query);
@@ -125,10 +111,8 @@ $content = "pages/create_incident_content.php";
                     $asset_stmt->close();
                 }
 
-                // Store uploaded file paths in the database
                 if (!empty($uploaded_files)) {
                     foreach ($uploaded_files as $file_path) {
-                        // Get the original file name
                         $original_file_name = '';
                         foreach ($files['tmp_name'] as $key => $tmp_name) {
                             if (strpos($file_path, basename($files['tmp_name'][$key])) !== false) {
@@ -150,23 +134,19 @@ $content = "pages/create_incident_content.php";
                     }
                 }
 
-                // If everything was successful, commit the transaction
                 $conn->commit();
                 echo "<div class='alert alert-success'>Incident created successfully!</div>";
                 header("Location: incidents.php"); //  Redirect to the incidents.php
                 exit;
             } catch (Exception $e) {
-                // If any error occurred, roll back the transaction
                 $conn->rollback();
                 echo "<div class='alert alert-danger'>An error occurred: " . $e->getMessage() . "</div>";
             } finally {
-                // Close the statement
                 if ($stmt) {
                     $stmt->close();
                 }
             }
         } else {
-            // Display errors
             echo "<div class='alert alert-danger'><strong>The following errors occurred:</strong><br>";
             foreach ($errors as $error) {
                 echo "- " . $error . "<br>";

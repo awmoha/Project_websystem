@@ -72,12 +72,11 @@
                             <p><strong>Reported By:</strong> <?= htmlspecialchars($row['reporter_name']) ?></p>
                             <p><strong>Reported At:</strong> <?= htmlspecialchars($row['reported_at']) ?></p>
 
-                            <!-- SLA Progress -->
                             <p><strong>Time Left:</strong> <?= htmlspecialchars($row['time_left']) ?> hours</p>
                             <div class="progress">
                                 <?php 
                                     $progress = ($row['hours_elapsed'] / $row['resolution_time']) * 100;
-                                    if ($progress > 100) $progress = 100; // Cap to 100% if over SLA time
+                                    if ($progress > 100) $progress = 100; 
                                 ?>
                                 <div class="progress-bar <?= $progress > 75 ? 'bg-danger' : ($progress > 50 ? 'bg-warning' : 'bg-success') ?>" role="progressbar" style="width: <?= $progress ?>%" aria-valuenow="<?= $progress ?>" aria-valuemin="0" aria-valuemax="100"></div>
                             </div>

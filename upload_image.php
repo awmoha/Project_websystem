@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $allowed_ext = ['jpg', 'jpeg', 'png', 'gif', 'pdf', 'doc', 'docx'];
     $upload_dir = 'media/uploads/';
 
-    // Skapa upload-katalogen om den inte finns
     if (!file_exists($upload_dir)) {
         if (!mkdir($upload_dir, 0777, true)) {
             $errors[] = "Kunde inte skapa upload-katalogen.";

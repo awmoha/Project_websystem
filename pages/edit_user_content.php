@@ -1,15 +1,12 @@
 <?php
-// Start the session to access $_SESSION
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
-// Check if the user data is in the session
 if (isset($_SESSION['edit_user_data'])) {
-    $user = $_SESSION['edit_user_data']; // Retrieve user data from session
+    $user = $_SESSION['edit_user_data']; 
 } else {
-    // Handle the case where user data is not in the session (optional)
-    // You might want to redirect back to the users list or show an error message
+   
     echo "Error: User data not found!";
     exit();
 }

@@ -63,7 +63,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update_user'])) {
             $stmt_check->store_result();
 
             if ($stmt_check->num_rows > 0) {
-                $message = "❌ Username or email already exists!";
+                $message = "Username or email already exists!";
             } else {
                 $stmt_update = $conn->prepare("UPDATE incident_user SET user_name = ?, email = ?, role_id = ? WHERE inc_user_id = ?");
                 $stmt_update->bind_param("ssii", $userName, $email, $roleId, $userId);
@@ -76,15 +76,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['update_user'])) {
                         $stmt_pw->execute();
                         $stmt_pw->close();
                     }
-                    $message = "✅ User updated successfully!";
+                    $message = "User updated successfully!";
                 } else {
-                    $message = "❌ Error updating user: " . $stmt_update->error;
+                    $message = "Error updating user: " . $stmt_update->error;
                 }
                 $stmt_update->close();
             }
             $stmt_check->close();
         } else {
-            $message = "❌ Invalid role!";
+            $message = "Invalid role!";
         }
         $stmt_role->close();
     }

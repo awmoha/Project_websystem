@@ -12,7 +12,6 @@ $description = trim($_POST['description']);
 $user_id = $_SESSION['user_id'];
 $role = $_SESSION['role'];
 
-// Endast Administrator och Reporter får ändra
 if ($role !== 'Administrator' && $role !== 'Reporter') {
     $_SESSION['flash_message'] = "You are not authorized to update the description.";
     header("Location: view.php?id=$inc_id");

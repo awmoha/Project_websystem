@@ -7,7 +7,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'Administrator') {
-    header("Location: index.php"); // Redirect to homepage if not authorized
+    header("Location: index.php"); 
     exit();
 }
 
@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
 
     $userName = $conn->real_escape_string($_POST['user_name']);
     $email = filter_var($_POST['email'], FILTER_VALIDATE_EMAIL);
-    $password = $_POST['password']; // Consider hashing the password
+    $password = $_POST['password']; 
     $roleName = $conn->real_escape_string($_POST['role_name']);
 
     if ($email) {
@@ -41,26 +41,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" &&
             $row_role = $result_role->fetch_assoc();
             $roleId = $row_role['role_id'];
 
-            // Check if the username or email already exists
             $stmt_check = $conn->prepare("SELECT inc_user_id FROM incident_user WHERE user_name = ? OR email = ?");
             $stmt_check->bind_param("ss", $userName, $email);
             $stmt_check->execute();
             $stmt_check->store_result();
 
             if ($stmt_check->num_rows > 0) {
-                $message = "❌ Username or email already exists!";
+                $message = "Username or email already exists!";
             } else {
-                // Hash the password for security
                 $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-                // Insert the new user into the database
                 $stmt_insert = $conn->prepare("INSERT INTO incident_user (user_name, password, email, role_id) VALUES (?, ?, ?, ?)");
                 $stmt_insert->bind_param("sssi", $userName, $hashedPassword, $email, $roleId);
 
                 if ($stmt_insert->execute()) {
-                    $message = "✅ User created successfully!";
+                    $message = "User created successfully!";
                 } else {
-                    $message = "❌ Error creating user: " . $conn->error;
+                    $message = "Error creating user: " . $conn->error;
                 }
                 $stmt_insert->close();
             }

@@ -13,7 +13,7 @@ $title = "SLA - Incident Status";
 
 $content = "pages/sla_content.php";
 
-$user_role = $_SESSION['role_name']; // Ex: 'Administrator', 'Responder'
+$user_role = $_SESSION['role_name']; 
 
 include('layout/layout.php');
 ?>

@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-$userId = $_SESSION['user_id'];  // Se till att användar-ID är korrekt
+$userId = $_SESSION['user_id'];  
 
 $stmt = $conn->prepare("
     SELECT iu.user_name, iu.email, r.role_name
@@ -36,7 +36,6 @@ if (!$user) {
 }
 
 
-// Layout-värden
 $title = "Profile";
 $content = "pages/profile_content.php";
 
