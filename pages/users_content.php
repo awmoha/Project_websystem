@@ -16,7 +16,7 @@
             <th>Email</th>
             <th>Role</th>
             <th>Edit</th>
-            <th>Remove</th>
+            <!-- <th>Remove</th> -->
           </tr>
         </thead>
         <tbody>
@@ -31,14 +31,14 @@
                   <i class="bi bi-pencil-square"></i> Edit
                 </a>
               </td>
-              <td>
+              <!-- <td>
                 <form method="post" action="users.php" class="d-inline-block">
                   <input type="hidden" name="user_id" value="<?= $user['inc_user_id'] ?>">
                   <button type="submit" name="remove_user" class="btn btn-danger btn-sm">
                     <i class="bi bi-trash"></i> Remove
                   </button>
                 </form>
-              </td>
+              </td> -->
             </tr>
           <?php endforeach; ?>
         </tbody>

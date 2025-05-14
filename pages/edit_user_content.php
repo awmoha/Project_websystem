@@ -18,7 +18,7 @@ if (isset($_SESSION['edit_user_data'])) {
     </div>
 
     <?php if (!empty($message)): ?>
-        <div class="alert alert-<?= (strpos($message, '✅') === 0) ? 'success' : 'danger' ?>"><?= $message ?></div>
+        <div class="alert alert-<?= (strpos($message, '✅') === 0) ? 'danger' : 'success' ?>"><?= $message ?></div>
     <?php endif; ?>
 
     <form method="post" action="edit_user.php">
