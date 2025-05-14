@@ -20,6 +20,7 @@ if (session_status() == PHP_SESSION_NONE) {
 </head>
 
 <body>
+    
     <?php include 'navbar.php'; ?>
     <div class="container-fluid">
         <div class="row">
@@ -36,7 +37,6 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
     </div>
 
-   
 
 </html>
 
@@ -127,9 +127,14 @@ body.dark-mode .dashboard-card {
     color: #f8f9fa !important;
 }
 
-body.dark-mode a,
-h1 {
+body.dark-mode a {
     color: #f8f9fa !important;
+
+}
+
+body.light-mode a
+{
+    color: #1e1e2f !important;
 
 }
 

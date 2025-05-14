@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg fixed-top bg-body-tertiary shadow-sm">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand position-absolute top-50 start-50 translate-middle fw-bold" href="#">
             Incident Response Portal
