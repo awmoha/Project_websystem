@@ -37,7 +37,7 @@ if (session_status() == PHP_SESSION_NONE) {
         </div>
     </div>
     <footer class="py-3 text-center mt-auto">
-        <p>&copy; <?= date('Y') ?> Incident Management System - All rights reserved.</p>
+        <p>&copy; <?= date('Y') ?> Incident Response Portal - All rights reserved.</p>
     </footer>
 </body>
 
